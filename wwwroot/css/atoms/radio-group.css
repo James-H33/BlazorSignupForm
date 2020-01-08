@@ -1,0 +1,17 @@
+.radio-btn-group {
+    
+}
+
+.radio-btn-group label {
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    padding: 0 10px;
+    cursor: pointer;
+}
+
+.radio-btn-group label input {
+    display: flex;
+    margin-right: 5px;
+    cursor: pointer;
+}

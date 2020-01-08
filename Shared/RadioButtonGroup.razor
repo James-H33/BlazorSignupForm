@@ -1,0 +1,45 @@
+@using BlazorSignupForm.Models
+
+@typeparam RadioType;
+
+<div class="radio-btn-group">
+    @for(var i = 0; i < RadioValues.Count; i++)
+    {
+        var radioValue = RadioValues[i];
+
+        <label>
+            <input 
+                type="radio" 
+                name="@GroupName"
+                checked="@(Selected.ToString() == radioValue.Value.ToString())"
+                onclick="(() => OnClick(radioValue.Value))"  
+            />
+            <div>
+                @radioValue.Label
+            </div>
+        </label>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string GroupName { get; set; } = "";
+
+    [Parameter]
+    public List<RadioGroupValue<RadioType>> RadioValues { get; set; } = new List<RadioGroupValue<RadioType>>();
+
+    [Parameter]
+    public EventCallback<RadioType> OnSelected { get; set; }
+
+    public RadioType Selected { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Selected = RadioValues[0].Value;
+    }
+
+    public void OnClick(RadioType value)
+    {
+        OnSelected.InvokeAsync(value);
+    }
+}

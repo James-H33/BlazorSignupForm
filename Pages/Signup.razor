@@ -1,0 +1,108 @@
+@page "/signup"
+
+@using BlazorSignupForm.Models;
+
+<div class="form-wrapper">
+    <h2>Signup Form</h2>
+
+    @if(isFormInvalid) 
+    {
+        <div class="validation-message">One or more errors have occurred.</div>
+    }
+
+    <EditForm Model="@user" OnValidSubmit="@HandleValidSubmit" OnInvalidSubmit="@HandleInvalidSubmit">
+        <DataAnnotationsValidator />
+
+        <div class="signup-field">
+            <label for="username">Username</label>
+            <InputText id="username"  @bind-Value="user.Username" />
+            <ValidationMessage For="@(() => user.Username)" />
+        </div>
+
+        <div class="signup-field">
+            <label for="firstname">First Name</label>
+            <InputText id="firstname"  @bind-Value="user.FirstName" />
+            <ValidationMessage For="@(() => user.FirstName)" />
+        </div>
+
+        <div class="signup-field">
+            <label for="lastname">Last Name</label>
+            <InputText id="lastname"  @bind-Value="user.LastName" />
+            <ValidationMessage For="@(() => user.LastName)" />
+        </div>
+
+        <div class="signup-field">
+            <label for="age">Age</label>
+            <InputNumber id="age"  @bind-Value="user.Age" />
+            <ValidationMessage For="@(() => user.Age)" />
+        </div>
+
+        <div class="signup-field">
+            <label for="state">State</label>
+            <InputSelect id="state" @bind-Value="user.State">
+                <option value="">Select State ...</option>
+                <option value="fl">Florida</option>
+                <option value="ga">Georga</option>
+                <option value="tn">Tennesee</option>
+            </InputSelect>
+        </div>
+
+        <div class="signup-field">
+            <label for="gender">Gender</label>
+            <RadioButtonGroup 
+                GroupName="gender"
+                RadioType="Gender" 
+                RadioValues="Genders"
+                OnSelected="((Gender v) => OnSelected(v))" />
+        </div>
+
+        <div class="signup-field">
+            <label for="address">Address</label>
+            <InputText id="address"  @bind-Value="user.Address" />
+            <ValidationMessage For="@(() => user.Address)" />
+        </div>
+        
+        <div class="signup-field">
+            <label for="zip">Zip</label>
+            <InputText id="zip"  @bind-Value="user.Zip" />
+            <ValidationMessage For="@(() => user.Zip)" />
+        </div>
+        
+        <button type="submit">Submit</button>
+    </EditForm>
+</div>
+
+@code
+{
+    public UserSignup user { get; set; } = new UserSignup();
+    public bool isFormInvalid = false;
+    public List<RadioGroupValue<Gender>> Genders = new List<RadioGroupValue<Gender>>
+    {
+        new RadioGroupValue<Gender>
+        {
+            Value = Gender.Male,
+            Label = "Male"
+        },
+        new RadioGroupValue<Gender>
+        {
+            Value = Gender.Female,
+            Label = "Female"
+        }
+    };
+
+    public void HandleInvalidSubmit() 
+    {
+        isFormInvalid = true;
+    }
+
+    public void HandleValidSubmit() 
+    {
+        isFormInvalid = false;
+        Console.WriteLine("Submission was Valid!");
+    }
+
+    public void OnSelected(Gender v)
+    {
+        user.Gender = v;
+    }
+}
