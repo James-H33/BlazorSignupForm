@@ -1,0 +1,28 @@
+@page "/users"
+
+@using BlazorSignupForm.Services.Interfaces
+@inject IUserService UserService
+
+<div class="user-list">
+    Users
+
+    @for (var i = 0; i < users.Count; i++)
+    {
+        var user = users[i];
+
+        <div class="user">
+            <h4>@user.Username</h4>
+            <div>@user.FirstName @user.LastName</div>
+        </div>
+    }
+</div>
+
+@code 
+{
+    public List<UserForList> users { get; set; } = new List<UserForList>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = await UserService.GetAll();
+    }
+}

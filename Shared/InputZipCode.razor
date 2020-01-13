@@ -1,0 +1,24 @@
+@inherits InputBase<string>;
+@using System.Text.RegularExpressions;
+
+<input bind="@CurrentValue" type="text" id="@Id" class="@CssClass" />
+
+@code 
+{
+    [Parameter]
+    public string @Id { get; set; }
+
+    protected override bool TryParseValueFromString(string value, out string result, out string validationErrorMessage)
+    {
+        result = value;
+        validationErrorMessage = "Something went wrong";
+        Console.WriteLine("Called");
+        return true;
+    }
+
+    private bool IsZipFormat() 
+    {
+        var regex = new Regex(@"\d");
+        return regex.Match(@CurrentValue).Success;
+    }
+}

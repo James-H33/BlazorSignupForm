@@ -1,6 +1,8 @@
 @page "/signup"
 
 @using BlazorSignupForm.Models;
+@using BlazorSignupForm.Services.Interfaces
+@inject IUserService UserService
 
 <div class="form-wrapper">
     <h2>Signup Form</h2>
@@ -62,11 +64,11 @@
             <ValidationMessage For="@(() => user.Address)" />
         </div>
         
-        <div class="signup-field">
+        @* <div class="signup-field">
             <label for="zip">Zip</label>
-            <InputText id="zip"  @bind-Value="user.Zip" />
+            <InputZipCode id="zip"  @bind-Value="user.Zip" />
             <ValidationMessage For="@(() => user.Zip)" />
-        </div>
+        </div> *@
         
         <button type="submit">Submit</button>
     </EditForm>
@@ -99,6 +101,7 @@
     {
         isFormInvalid = false;
         Console.WriteLine("Submission was Valid!");
+        UserService.Signup(user);
     }
 
     public void OnSelected(Gender v)
